@@ -1,7 +1,11 @@
 from flask import Flask
-
+from openai import OpenAI
+import os
 
 app = Flask(__name__)
+openai_api_key = os.environ.get(OPENAI_API_KEY)
+client = OpenAI(api_key=openai_api_key)
+
 
 UID = ""
 
