@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 openai_api_key = os.environ.get("openaiApiKey")
 assistant_id = "asst_Ujp73GXjXTV2JgzqrCXDqdKW"
-client = OpenAI(api_key='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')
+client = OpenAI(api_key=openai_api_key)
 plotCraftAI = client.beta.assistants.retrieve(assistant_id)
 
 
