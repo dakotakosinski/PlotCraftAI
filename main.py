@@ -1,51 +1,55 @@
-from flask import Flask
+from flask import Flask, render_template, request
 from openai import OpenAI
 import os
 
 app = Flask(__name__)
 openai_api_key = os.environ.get("openaiApiKey")
 assistant_id = "asst_Ujp73GXjXTV2JgzqrCXDqdKW"
-client = OpenAI(api_key=openai_api_key)
+client = OpenAI(api_key='')
 plotCraftAI = client.beta.assistants.retrieve(assistant_id)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-@app.route("/Story/<prompt>/<word_cap>/<genre>")
-def generate_story(prompt, word_cap, genre):
+@app.route('/story_form')
+def story_form():
+    return render_template('story_form.html')
+
+@app.route("/generate_story", methods=["POST"])
+def generate_story():
+    prompt = request.form.get('prompt')
+    word_cap = request.form.get('word_cap')
+    genre = request.form.get('genre')
+
     my_thread = client.beta.threads.create()
     my_message = client.beta.threads.messages.create(
-        thread_id= my_thread.id,
-        role= 'user',
-        content= prompt + genre + word_cap
+        thread_id=my_thread.id,
+        role='user',
+        content=f"{prompt} {genre} {word_cap}"
     )
     my_run = client.beta.threads.runs.create(
-        thread_id= my_thread.id,
-        assistant_id= plotCraftAI.id
+        thread_id=my_thread.id,
+        assistant_id=plotCraftAI.id
     )
-    while my_run.status == "queued" or  my_run.status == "in_progress":
+    while my_run.status in ["queued", "in_progress"]:
         keep_retrieving_run = client.beta.threads.runs.retrieve(
-            thread_id= my_thread.id,
-            run_id= my_run.id
+            thread_id=my_thread.id,
+            run_id=my_run.id
         )
         if keep_retrieving_run.status in ['queued', 'in_progress']:
-            pass
+            continue
         else:
             print(f"Run Status: {keep_retrieving_run.status}")
             break
-    
-    if keep_retrieving_run.status == "completed":
-        print("\n")
 
+    if keep_retrieving_run.status == "completed":
         all_messages = client.beta.threads.messages.list(
             thread_id=my_thread.id
         )
-        print(f"Assistant: {all_messages.data[0].content[0].text.value}")
         response = all_messages.data[0].content[0].text.value
-        resp = response.strip()
-        return resp
-    return "failed"
-
-
-
+        return render_template('story_result.html', story=response.strip())
+    return "Story generation failed."
 
 if __name__ == '__main__':
     app.run(debug=True)

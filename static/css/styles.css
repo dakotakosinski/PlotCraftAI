@@ -1,10 +1,55 @@
 body {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
-}
-header {
     background-color: #fe8eb2;
-    color: #d42a5b;
+}
+
+header {
+    background-color: #d42a5b;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    background-color: #d42a5b;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+button {
+    background-color: #d42a5b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #a41d43;
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
 }
