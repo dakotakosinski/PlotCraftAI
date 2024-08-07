@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Story Result{% endblock %}
+{% block content %}
+<h2> Your Generated Story:</h2>
+<div class="story-container">
+    <p>{{story}}</p>
+</div>
+<button onclick="location.href='{{url_for('home') }}'">Back to Home</button>
+{% endblock %}
