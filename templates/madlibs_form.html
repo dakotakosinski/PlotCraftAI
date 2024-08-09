@@ -5,7 +5,6 @@
 {% block content %}
 <h2>Madlibs!</h2>
 <form action="{{ url_for('generate_madlibs') }}" method="post">
-    
     <label for="genre">Genre:</label>
     <select id="genre" name="genre" required>
         <option value="Fantasy">Fantasy</option>
@@ -16,8 +15,6 @@
         <option value="Adventure">Adventure</option>
         <option value="Historical">Historical</option>
     </select><br><br>
-    
     <button type="submit">Let's go!</button>
 </form>
 {% endblock %}
-      

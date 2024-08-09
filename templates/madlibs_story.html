@@ -1,43 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Complete the Madlibs {% endblock %}
+{% block title %}Complete the Madlibs{% endblock %}
 
 {% block content %}
 <h2>Fill in the blanks to complete the story!</h2>
 <div id="madlibs-form-container">
-    <p id="story-text">{{story | safe}}</p>
-    <form id="madlibs-form" onsubmit="submitBlank(event)">
-        <input type="text" id="current-input" placeholder="Enter text here" required autofocus>
-        <button type="submit">Next</button>
+    <p id="story-text" style="white-space: pre-wrap;">{{ story | safe }}</p>
+    <form action="{{ url_for('fill_madlibs') }}" method="POST">
+        <input type="text" name="filled_story" required autofocus>
+        <button type="submit">Submit</button>
     </form>
 </div>
 {% endblock %}
-
-<script>
-    let currentBlankIndex = 0;
-    const blanks = document.querySelectorAll('#story-text span.blank');
-    const inputField = document.getElementById('current-input');
-    
-    function submitBlank(event){
-        event.preventDefault();
-        const userInput = inputField.value.trim();
-        if(userInput){
-            blanks[currentBlankIndex].textContent = userInput;
-
-            currentBlankIndex++;
-            if(currentBlankIndex < blanks.length){
-                inputField.value = '';
-                inputField.placeholder = 'Enter next text';
-            } 
-            else {
-                document.getElementById('madlibs-form-container').innerHTML = `<p>${document.getElementById('story-text').textContent}</p>`;
-            }
-        }
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-        if(blanks.length === 0){
-            document.getElementById('madlibs-form-container').innerHTML = `<p>No blanks to fill! Here is the full story:</p><br><p>${document.getElementById('story-text').textContent}</p>`;
-        }
-    });
-
-</script>
