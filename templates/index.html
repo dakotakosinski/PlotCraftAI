@@ -3,6 +3,21 @@
 {% block title %}Home | PlotCraftAI{% endblock %}
 
 {% block content %}
-<p>Welcome to PlotCraftAI. Generate your stories with ease!</p>
-<button onclick="location.href='{{ url_for('story_form') }}'">Generate Story</button>
+<h1>Welcome to PlotCraftAI!</h1>
+<div class="card-container">
+    <div class="card">
+        <img src="{{url_for('static', filename='images/image1.png')}}" alt="Story Generator">
+        <p>Generate Stories using our state of the art AI. Choose what type of story you want and let us handle the rest</p>
+        <button onclick="location.href='{{ url_for('story_form') }}'">Generate Story</button>        
+    </div>
+</div>
+<div class="card-container">
+    <div class="card">
+        <img src="{{url_for('static', filename='images/image2.png')}}" alt="MadLibs">
+        <p>Up for a good laugh? Choose a genre and fill out some prompts with random words and see them in a random story!</p>
+        <button onclick="location.href='{{ url_for('madlibs_form') }}'">Let's Go</button>        
+    </div>
+</div>
+
+
 {% endblock %}
